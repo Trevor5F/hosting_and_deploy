@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+    ports:
+      - 80:80
+    volumes:
+      - ./docker_config.py:/code/default_config.py
+    depends_on: # указывает порядок запуска сервисов
+      pg:
+        condition: service_healthy # запустить после того как контейнер будет работать (пройдёт healthcheck)
+      migrations:
+        condition: service_completed_successfully # запустить только после того как успешно завершится другой контейнер (опция рабочая)
+
+  migrations:
+    build:
+      context: .
+    volumes:
+      - ./docker_config.py:/code/default_config.py
+    depends_on: # указывает порядок запуска сервисов
+      pg:
+        condition: service_healthy # запустить после того как контейнер будет работать (пройдёт healthcheck)
+    command: flask db upgrade
+
+  pg:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: flask_app
+      POSTGRES_PASSWORD: flask_app_password
+      POSTGRES_DB: flask_app
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"] # команда для проверки
+      interval: 5s
+      timeout: 5s
+      retries: 5

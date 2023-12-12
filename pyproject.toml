@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "hosting & deploy"
+version = "0.1.0"
+description = ""
+authors = ["Admin <Dexter2366@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^2.3.2"
+mypy = "^1.4.1"
+marshmallow-dataclass = "^8.5.14"
+flask-restx = "^1.1.0"
+flask-sqlalchemy = "^3.0.5"
+pymorphy2 = "^0.9.1"
+flask-migrate = "^4.0.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
