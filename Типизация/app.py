@@ -22,7 +22,7 @@ def build_query(cmd: str, val: str, file_list: Iterator) -> List[Any]:
         return list(set(file_list))
 
     if cmd == 'sort':
-        reverse = val == 'desc'  # если val == 'desc' reverse вернёт True
+        reverse = val == 'desc'
         return sorted(file_list, reverse=reverse)
 
     if cmd == 'limit':
